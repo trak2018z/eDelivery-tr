@@ -1,0 +1,11 @@
+<% if current_user.nil? %>
+  <%= link_to new_user_session_path, class: 'login-button' do %>Sign in<% end %>
+  <% else %>
+  <% if current_user.supervisor_role? %>
+    <p>Visible only for superadmins and supervisors! </p>
+  <% end %>
+
+  <% if can? :manage, User %>
+    <p>Visible only for superadmins and supervisors! </p>
+  <% end %>
+<% end %>

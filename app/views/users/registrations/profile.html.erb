@@ -1,0 +1,40 @@
+<div class="container py-2">
+  <div class="row p-0">
+    <div class=" col-md-8 col-sm-12">
+      <div class="card rounded-0">
+        <div class="card-header">Profile</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <tbody>
+              <tr>
+                <td>Email</td>
+                <td><%= current_user.email %></td>
+              </tr>
+              <tr>
+                <td>Name</td>
+                <td><%= current_user.name %></td>
+              </tr>
+                <td>Surname</td>
+                <td><%= current_user.surname %></td>
+              </tr>
+                <td>Name</td>
+                <td><%= current_user.address %></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class=" col-md-4 col-sm-12">
+      <div class="card rounded-3">
+        <div class="card-header text-center">Actions</div>
+        <div class="card-body">
+          <%= link_to "Edit", edit_user_registration_path, class: "btn btn-primary col-12"%>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

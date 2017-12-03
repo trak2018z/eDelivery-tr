@@ -35,6 +35,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def cancel
   #   super
   # end
+  #
+  def profile
+
+  end
 
   # protected
 

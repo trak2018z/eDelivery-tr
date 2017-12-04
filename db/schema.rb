@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 20171204135105) do
     t.string "region"
     t.string "city"
     t.string "street"
-    t.integer "building_number"
-    t.integer "apartment_number"
+    t.string "building_number"
+    t.string "apartment_number"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 20171204135105) do
     t.string "uid"
     t.string "name"
     t.string "surname"
-    t.integer "address"
+    t.integer "addresses"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

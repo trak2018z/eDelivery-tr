@@ -82,6 +82,6 @@ test:
 #
 production:
   <<: *default
-  database: eDelivery
-  username: eDelivery
+  database: d1qebmlhj0inok
+  username: zmyowgernjteub
   password: <%= ENV['DB_PASSWORD'] %>

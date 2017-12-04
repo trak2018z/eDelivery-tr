@@ -10,4 +10,12 @@ module ApplicationHelper
     end
   end
 
+  def eDelivery_currency(value)
+    number_to_currency value, unit: "£", seperator: ",", delimiter: ""
+  end
+
+  def price_of_package_element
+    {weight: 3, height: 1.23, width: 0.59, length: 1}
+  end
+
 end

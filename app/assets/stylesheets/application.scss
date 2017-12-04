@@ -15,6 +15,7 @@
 *= require toastr
  */
 @import "bootstrap";
+@import "font-awesome";
 
 .page-content{
   margin-top: 80px;
@@ -58,4 +59,22 @@ footer {
   margin-top: -15px;
   margin-left: -15px;
   text-align: center;
+}
+
+.btn {
+  cursor:pointer
+}
+
+.fa{
+  text-decoration: none !important;
+  color: black;
+}
+
+.fa:hover{
+  color: gray !important;
+}
+
+i[class^="icon-"]:before {
+  display: inline-block;
+  text-decoration: none;
 }

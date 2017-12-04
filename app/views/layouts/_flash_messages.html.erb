@@ -1,5 +1,11 @@
 <% flash.each do |key, value| %>
   <div class="<%= flash_class(key) %>">
-    <%= value %>
+    <% if key=="errors" %>
+      <%  value.each do |error| %>
+        <%= error %><br/>
+      <% end %>
+    <% else %>
+      <%= value %>
+    <% end %>
   </div>
 <% end %>

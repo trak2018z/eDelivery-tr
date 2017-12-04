@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171203174010) do
+ActiveRecord::Schema.define(version: 20171204105251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,44 @@ ActiveRecord::Schema.define(version: 20171203174010) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
+  create_table "cargos", force: :cascade do |t|
+    t.bigint "transporter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transporter_id"], name: "index_cargos_on_transporter_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "receipt_date"
+    t.datetime "delivery_date"
+    t.decimal "price"
+    t.bigint "user_id"
+    t.bigint "address_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_orders_on_address_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "packages", force: :cascade do |t|
+    t.integer "weight"
+    t.integer "height"
+    t.integer "width"
+    t.bigint "cargo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cargo_id"], name: "index_packages_on_cargo_id"
+  end
+
+  create_table "transporters", force: :cascade do |t|
+    t.integer "loading_space"
+    t.integer "max_weight"
+    t.integer "average_speed"
+    t.boolean "available"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -55,4 +93,8 @@ ActiveRecord::Schema.define(version: 20171203174010) do
     t.index ["uid"], name: "index_users_on_uid"
   end
 
+  add_foreign_key "cargos", "transporters"
+  add_foreign_key "orders", "addresses"
+  add_foreign_key "orders", "users"
+  add_foreign_key "packages", "cargos"
 end

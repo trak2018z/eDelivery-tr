@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
 
   has_many :addresses
+  has_many :orders
 
   def self.from_omniauth(auth)
     user = User.where(:email => auth.info.email).first

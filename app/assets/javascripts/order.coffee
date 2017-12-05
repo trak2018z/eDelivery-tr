@@ -1,5 +1,5 @@
 
-$(document).ready ->
+$(document).on 'turbolinks:load', ->
   $('#addpackmodal').on 'show.bs.modal', (event) ->
     button = undefined
     modal = undefined
@@ -38,12 +38,12 @@ $(document).ready ->
     price = 0
     package_elem.find($('.package-data')).each ->
       price += $(this).val() * $(this).attr('price-for')
-
     price_box.val("$"+price.toFixed(2))
-
     return
+  return
 
-
+$(document).on 'click', '.rm-package', ->
+  $(this).parent().parent().remove()
   return
 
 clearFields = ->
@@ -59,6 +59,10 @@ addIndexToInputsAndSetReadOnly = (clone) ->
     name = $(this).attr('name').replace('[index]', "[no-"+number+"]")
     $(this).attr('name', name)
     $(this).attr("readonly", "readonly")
+  setRemoveButtonVisible(clone, number)
+
+setRemoveButtonVisible = (obj, id) ->
+  obj.find(('.title-div')).first().attr('hidden', false)
 
 
 addLastPackagePriceToOrderPrice = ->

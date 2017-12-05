@@ -41,6 +41,11 @@
           <div class="form-group">
             <row id="package_size">
                  <div class="form-inline">
+                   <div class="title-div col-12" hidden="true">
+                    <button type="button" class="close rm-package" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                   </div>
                     <input type="number" min="0" price-for="<%= price_of_package_element[:weight] %>" class="form-control col-12 col-sm-6 col-md-3 package-data" id="weight" name="order[packages][index][weight]" placeholder="Weight" required="required">
                     <input type="number" min="0" price-for="<%= price_of_package_element[:height] %>" class="form-control col-12 col-sm-6 col-md-3 package-data" id="height" name="order[packages][index][height]" placeholder="Height" required="required">
                     <input type="number" min="0" price-for="<%= price_of_package_element[:width] %>" class="form-control col-12 col-sm-6 col-md-3 package-data" id="width" name="order[packages][index][width]" placeholder="Width" required="required">

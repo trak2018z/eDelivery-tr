@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171204135105) do
+ActiveRecord::Schema.define(version: 20171205000817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 20171204135105) do
     t.string "region"
     t.string "city"
     t.string "street"
-    t.integer "building_number"
-    t.integer "apartment_number"
+    t.string "building_number"
+    t.string "apartment_number"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -40,10 +40,12 @@ ActiveRecord::Schema.define(version: 20171204135105) do
     t.datetime "delivery_date"
     t.decimal "price"
     t.bigint "user_id"
-    t.bigint "address_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address_id"], name: "index_orders_on_address_id"
+    t.bigint "source_address_id"
+    t.bigint "target_address_id"
+    t.index ["source_address_id"], name: "index_orders_on_source_address_id"
+    t.index ["target_address_id"], name: "index_orders_on_target_address_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -55,7 +57,9 @@ ActiveRecord::Schema.define(version: 20171204135105) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "length"
+    t.bigint "order_id"
     t.index ["cargo_id"], name: "index_packages_on_cargo_id"
+    t.index ["order_id"], name: "index_packages_on_order_id"
   end
 
   create_table "transporters", force: :cascade do |t|
@@ -87,7 +91,7 @@ ActiveRecord::Schema.define(version: 20171204135105) do
     t.string "uid"
     t.string "name"
     t.string "surname"
-    t.integer "address"
+    t.integer "addresses"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -95,7 +99,9 @@ ActiveRecord::Schema.define(version: 20171204135105) do
   end
 
   add_foreign_key "cargos", "transporters"
-  add_foreign_key "orders", "addresses"
+  add_foreign_key "orders", "addresses", column: "source_address_id"
+  add_foreign_key "orders", "addresses", column: "target_address_id"
   add_foreign_key "orders", "users"
   add_foreign_key "packages", "cargos"
+  add_foreign_key "packages", "orders"
 end

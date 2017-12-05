@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require bootstrap-slider
 *= require toastr
  */
 @import 'bootstrap';
@@ -62,6 +63,10 @@ footer {
 }
 
 .btn {
+  cursor:pointer
+}
+
+.rm-package {
   cursor:pointer
 }
 

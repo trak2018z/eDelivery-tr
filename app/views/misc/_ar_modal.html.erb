@@ -1,0 +1,13 @@
+<div class="modal fade ar-modal" data-keyboard="true" <% if modal[:id] %> id="<%= modal[:id] %>" <% end %> tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-label"> <% if modal[:title] %> <%= modal[:title].html_safe %> <% end %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <% if modal[:form] %> <%= render modal[:form] %> <% end %>
+    </div>
+  </div>
+</div>

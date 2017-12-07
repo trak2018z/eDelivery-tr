@@ -13,6 +13,8 @@
  *= require_tree .
  *= require_self
  *= require bootstrap-slider
+ *= require select2
+ *= require select2-bootstrap
 *= require toastr
  */
 @import 'bootstrap';
@@ -66,10 +68,6 @@ footer {
   cursor:pointer
 }
 
-.rm-package {
-  cursor:pointer
-}
-
 .fa{
   text-decoration: none !important;
   color: black;
@@ -82,4 +80,49 @@ footer {
 i[class^="icon-"]:before {
   display: inline-block;
   text-decoration: none;
+}
+
+.modal-footer{
+  display: block;
+  align-items: right;
+
+  > :not(:first-child) { margin-left: 0px !important; }
+  > :not(:last-child) { margin-right: 0px !important; }
+}
+
+div.has-error input,
+div.has-error ul.select2-choices {
+  border-color: rgb(185, 74, 72) !important;
+}
+
+.text-error {
+  color: rgb(185, 74, 72) !important;
+}
+
+.invisible-label{
+  margin: 0px;
+  padding: 0px;
+}
+
+.invisible-label label{
+  color: gray;
+  font-size: $small-font-size;
+  margin: 0px;
+  padding: 0px;
+  visibility: hidden;
+}
+
+.modal-body {
+  padding-top: 0px;
+}
+
+.address-list-element{
+  display: inline-block;
+}
+.address-element{
+  display: block;
+}
+
+.pointner{
+  cursor:pointer
 }

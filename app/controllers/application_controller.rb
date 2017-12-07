@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include FontAwesome::Rails::IconHelper
   protect_from_forgery with: :exception
   before_action :authenticate_user!, :configure_permitted_parameters, if: :devise_controller?
 
@@ -15,4 +16,5 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: additional_params)
     devise_parameter_sanitizer.permit(:account_update, keys: additional_params)
   end
+
 end

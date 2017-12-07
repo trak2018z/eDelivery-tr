@@ -37,7 +37,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
   #
   def profile
-
+    @address = Address.new
   end
 
   protected

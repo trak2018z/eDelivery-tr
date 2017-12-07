@@ -1,0 +1,40 @@
+<h5>Addresses:</h5>
+<ul id="addresses_list" class="list-group">
+  <% current_user.addresses.each do |address|%>
+    <li class="row list-group-item p-0 mb-2">
+      <div class="address-list-element col-12 px-0">
+        <div class="address-list-element ml-2">
+          <small class="text-muted text-center">Country</small>
+          <span class="px-0 text-center"><%= address.country %></span>
+        </div>
+        <span class="float-right" style="font-size: 30%">
+          <%= link_to edit_address_path(address), data: {disable_with: '<i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>'}, remote: true, class: 'fa fa-pencil-square-o fa-4x mx-1' do %>
+
+          <% end %>
+          <a class='fa fa-times confirm-delete fa-5x mx-1 pointner' data-href="<%=address_path(address)%>", data-toggle="modal", data-target="#confirm-delete"></a>
+        </span>
+        <hr class="m-0 mb-2"/>
+      </div>
+      <div class="address-list-element col-12 col-sm-2 px-0 mx-0">
+        <small class="text-muted text-center address-element">City</small>
+        <span class="px-0 text-center address-element"><%= address.city %></span>
+      </div>
+      <div class="address-list-element col-12 col-sm-2 px-0 mx-0">
+        <small class="text-muted text-center address-element">Postal code</small>
+        <span class="px-0 text-center address-element"><%= address.postal_code %></span>
+      </div>
+      <div class="address-list-element col-12 col-sm-2 px-0 mx-0">
+        <small class="text-muted text-center address-element">Street</small>
+        <span class="px-0 text-center address-element"><%= address.street %></span>
+      </div>
+      <div class="address-list-element col-12 col-sm-2 px-0 mx-0">
+        <small class="text-muted text-center address-element">Building</small>
+        <span class="px-0 text-center address-element"><%= address.building_number %></span>
+      </div>
+      <div class="address-list-element col-12 col-sm-2 px-0 mx-0">
+        <small class="text-muted text-center address-element">Apartment</small>
+        <span class="px-0 text-center address-element"><%= address.apartment_number %></span>
+      </div>
+    </li>
+  <% end %>
+</ul>

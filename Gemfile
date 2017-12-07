@@ -24,7 +24,13 @@ gem 'bootstrap', '~> 4.0.0.beta2.1'
 gem 'jquery-rails'
 # icons
 gem 'font-awesome-rails'
+# for sliders
 gem 'bootstrap-slider-rails'
+# post code validation
+gem 'validates_zipcode'
+gem 'countries'
+# better forms
+gem "select2-rails"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'

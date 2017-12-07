@@ -1,0 +1,4 @@
+$('#flash_messages').html("<%= escape_javascript(render 'layouts/flash_messages') %>");
+$('.ar-modal').modal('hide');
+
+$('#addresses-containter').html("<%= escape_javascript(render 'addresses/index') %>");

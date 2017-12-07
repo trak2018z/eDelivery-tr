@@ -1,51 +1,26 @@
+<!-- modal settings -->
+<% modal_name = 'new_address_modal' %>
+
 <div class="container py-2">
   <div class="row p-0">
     <div class=" col-md-8 col-sm-12">
+      <div id="flash_messages"><%= render 'layouts/flash_messages' %></div>
       <div class="card rounded-0">
         <div class="card-header">Profile</div>
         <div class="card-body">
-          <%= render 'layouts/flash_messages' %>
-          <div class="table-responsive">
-<table class="table">
-              <tbody>
-              <tr>
-                <td>Email</td>
-                <td><%= current_user.email %></td>
-              </tr>
-              <tr>
-                <td>Name</td>
-                <td><%= current_user.name %></td>
-              </tr>
-              <td>Surname</td>
-              <td><%= current_user.surname %></td>
-              </tr>
-
-              </tbody>
-            </table>
-            <h5>Addresses:</h5>
-            <table class="table">
-              <tbody>
-              <% current_user.addresses.each do |address|%>
-              <tr>
-                <td><%= address.to_s %></td>
-                <td align="right">
-                  <%= link_to "", edit_address_path(address), class: "fa fa-pencil-square-o fa-lg"%>
-                  <%= link_to "", address_path(address), :data => {:confirm => 'Are you sure?'}, class: "fa fa-times fa-lg", method: :delete%>
-                </td>
-              </tr>
-              <% end %>
-              </tbody>
-            </table>
+          <div id="addresses-containter">
+            <%= render 'addresses/index' %>
           </div>
         </div>
       </div>
     </div>
+
     <div class=" col-md-4 col-sm-12">
       <div class="card rounded-3">
         <div class="card-header text-center">Actions</div>
         <div class="card-body">
           <%= link_to "Edit", edit_user_registration_path, class: "btn btn-primary col-12"%>
-          <%= link_to "Add address", new_address_path, class: "btn btn-info col-12 mt-2"%>
+          <%= button_to "Add address", new_address_path, id: "new_address", remote: true, class: "btn btn-info col-12 mt-2 load-modal", method: :get, data: { disable_with: "Please wait..." } %>
           <%= link_to "Orders", orders_path, class: "btn btn-info col-12 mt-2"%>
         </div>
       </div>
@@ -53,3 +28,5 @@
 
   </div>
 </div>
+
+<%= render 'misc/ar_delete_modal' %>

@@ -1,31 +1,50 @@
-<%= form_for @address do |f| %>
-  <div class="form-group">
-    <%= f.text_field :country, class: "form-control form-control-md rounded-0", autofocus: true, placeholder: "Country" %>
+<%= form_for @address, :remote => true do |f| %>
+  <div class="modal-body">
+    <div class="form-group invisible-label">
+      <%= f.label :country %>
+      <%= f.select :country, options_for_select(ISO3166::Country.all_translated(locale = I18n.locale).collect{ |c| c }.insert(0, ""), @address.country), {}, {class: "select2-select", placeholder: "Select country"} %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+
+    <div class="form-group invisible-label">
+      <%= f.label :postal_code %>
+      <%= f.text_field :postal_code, class: "form-control form-control-md", autocomplete: "off", placeholder: "Postal code" %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+
+    <div class="form-group invisible-label">
+      <%= f.label :city %>
+      <%= f.text_field :city, class: "form-control form-control-md", autocomplete: "off", placeholder: "City" %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+
+    <div class="form-group invisible-label">
+      <%= f.label :street %>
+      <%= f.text_field :street, class: "form-control form-control-md", autocomplete: "off", placeholder: "Street" %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+
+    <div class="form-group invisible-label">
+      <%= f.label :building_number %>
+      <%= f.text_field :building_number, class: "form-control form-control-md", autocomplete: "off", placeholder: "Building number" %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+
+    <div class="form-group invisible-label">
+      <%= f.label :apartment_number %>
+      <%= f.text_field :apartment_number, class: "form-control form-control-md", autocomplete: "off", placeholder: "Apartment number" %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= f.text_field :region, class: "form-control form-control-md rounded-0", autocomplete: "off", placeholder: "Region" %>
+  <div class="modal-footer mb-2 text-right">
+    <div class="text-right col-12">
+      <%= button_tag 'Cancel', type: 'button', 'data-dismiss': 'modal', class: 'btn btn-secondary col-12 col-sm-5' %>
+    <%if action_name=="edit" %>
+      <%= f.submit "Update", class: "btn btn-success col-12 col-sm-5" %>
+    <% else %>
+      <%= f.submit "Create", class: "btn btn-success col-12 col-sm-5", remote: true %>
+    <% end %>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= f.text_field :city, class: "form-control form-control-md rounded-0", autocomplete: "off", placeholder: "City" %>
-  </div>
-
-  <div class="form-group">
-    <%= f.text_field :street, class: "form-control form-control-md rounded-0", autocomplete: "off", placeholder: "Street" %>
-  </div>
-
-  <div class="form-group">
-    <%= f.text_field :building_number, class: "form-control form-control-md rounded-0", autocomplete: "off", placeholder: "Building number" %>
-  </div>
-
-  <div class="form-group">
-    <%= f.text_field :apartment_number, class: "form-control form-control-md rounded-0", autocomplete: "off", placeholder: "Apartment number" %>
-  </div>
-
-  <%if action_name=="edit" %>
-    <%= f.submit "Update", class: "btn btn-success col-12 col-md-6 float-right" %>
-  <% else %>
-    <%= f.submit "Create", class: "btn btn-success col-12 col-md-6 float-right" %>
-  <% end %>
 <% end %>

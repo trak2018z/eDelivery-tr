@@ -31,3 +31,9 @@
 
 en:
   hello: "Hello world"
+  currency:
+    short: "$"
+  errors:
+    messages:
+      invalid_format: "Invalid format"
+      invalid_zipcode: "Post code is invalid"

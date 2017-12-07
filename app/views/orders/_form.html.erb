@@ -1,3 +1,6 @@
+<!-- modal settings -->
+<% modal_name = 'new_package_modal' %>
+
 <%= form_for :order, :url => orders_path do |f| %>
   <div class="form-group">
     <%= f.text_field :receipt_date, class: "form-control form-control-md rounded-0", autofocus: true, placeholder: "Receipt date" %>
@@ -8,7 +11,10 @@
   </div>
 
   <div class="form-group">
-    <%= f.text_field :price, class: "form-control form-control-md rounded-0", autocomplete: "off", placeholder: "City", disabled: "disabled", value: '$0.00' %>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon"><%= t('currency.short') %></span>
+    <%= f.text_field :price, class: "form-control col-12 col-sm-4 col-md-3 text-right", autocomplete: "off", placeholder: "City", disabled: "disabled", value: '0.00' %>
   </div>
 
   <hr class="mb-0 pb-0"/>
@@ -17,7 +23,7 @@
 
   </div>
   <div class="my-2">
-  <button type="button" id="new_package" class="btn btn-info" data-toggle="modal" data-target="#addpackmodal" data-nopackage="-1">Add package</button>
+  <button type="button" id="new_package" class="btn btn-info" data-toggle="modal" data-nopackage="0" data-target="#<%= modal_name %>" data-title="Add package">Add package</button>
   </div>
 
 
@@ -28,39 +34,5 @@
   <% end %>
 <% end %>
 
-<div class="modal fade" id="addpackmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal-label">New package</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <div class="form-group">
-            <row id="package_size">
-                 <div class="form-inline">
-                   <div class="title-div col-12" hidden="true">
-                    <button type="button" class="close rm-package" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                   </div>
-                    <input type="number" min="0" price-for="<%= price_of_package_element[:weight] %>" class="form-control col-12 col-sm-6 col-md-3 package-data" id="weight" name="order[packages][index][weight]" placeholder="Weight" required="required">
-                    <input type="number" min="0" price-for="<%= price_of_package_element[:height] %>" class="form-control col-12 col-sm-6 col-md-3 package-data" id="height" name="order[packages][index][height]" placeholder="Height" required="required">
-                    <input type="number" min="0" price-for="<%= price_of_package_element[:width] %>" class="form-control col-12 col-sm-6 col-md-3 package-data" id="width" name="order[packages][index][width]" placeholder="Width" required="required">
-                    <input type="number" min="0" price-for="<%= price_of_package_element[:length] %>" class="form-control col-12 col-sm-6 col-md-3 package-data" id="length" name="order[packages][index][length]" placeholder="Length" required="required">
-                </div>
-            </row>
-            <span class="text-muted small pd-1">Define in centimeters.</span>
-          </div>
-      </div>
-      <div class="modal-footer">
-        <input class="form-control col-12 col-sm-6 col-md-3a float-left" id="price_modal" value="$0.00" disabled>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button id="add_package" type="button" class="btn btn-primary">Add package</button>
-      </div>
-    </div>
-  </div>
-</div>
 
+<%= render 'misc/ar_modal', modal: {form: 'packages/modal_form', id: modal_name} %>

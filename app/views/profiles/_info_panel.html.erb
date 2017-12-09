@@ -1,0 +1,17 @@
+<div class="card m-0">
+  <div class="card-block m-0 col-12">
+
+    <div class="py-1">
+      <i class="fa fa-id-card-o fa-3x mr-3" aria-hidden="true"></i><div class="inline-element"><div class="small text-muted">Name</div><div><%= current_user.profile.name %> <%= current_user.profile.surname %></div></div>
+    </div>
+    <hr class="m-0 mb-2"/>
+    <div class="inline-element col-12 col-sm-7 px-0 mx-0">
+      <small class="text-muted block-element">Email</small>
+      <span class="px-0 block-element"><%= current_user.email %></span>
+    </div>
+    <div class="inline-element col-12 col-sm-4 px-0 mx-0">
+      <small class="text-muted block-element">Telephone</small>
+      <span class="px-0 block-element"><%= current_user.profile.phone.nil?  ? '---' : current_user.profile.phone %></span>
+    </div>
+  </div>
+</div>

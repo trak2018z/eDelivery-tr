@@ -110,19 +110,24 @@ div.has-error ul.select2-choices {
   margin: 0px;
   padding: 0px;
   visibility: hidden;
+  white-space:nowrap;
+  overflow:hidden;
 }
 
 .modal-body {
   padding-top: 0px;
 }
 
-.address-list-element{
+.inline-element{
   display: inline-block;
 }
-.address-element{
+
+.block-element {
   display: block;
+  text-align: center;
 }
 
 .pointner{
   cursor:pointer
 }
+

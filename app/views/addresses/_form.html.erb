@@ -39,11 +39,11 @@
 
   <div class="modal-footer mb-2 text-right">
     <div class="text-right col-12">
-      <%= button_tag 'Cancel', type: 'button', 'data-dismiss': 'modal', class: 'btn btn-secondary col-12 col-sm-5' %>
+      <%= button_tag 'Cancel', type: 'button', 'data-dismiss': 'modal', class: 'btn btn-gray col-12 col-sm-5' %>
     <%if action_name=="edit" %>
-      <%= f.submit "Update", class: "btn btn-success col-12 col-sm-5" %>
+      <%= f.submit "Update", class: "btn btn-green col-12 col-sm-5" %>
     <% else %>
-      <%= f.submit "Create", class: "btn btn-success col-12 col-sm-5", remote: true %>
+      <%= f.submit "Create", class: "btn btn-green col-12 col-sm-5", remote: true %>
     <% end %>
     </div>
   </div>

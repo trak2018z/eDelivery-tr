@@ -30,7 +30,9 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-
+      # OmnAuth
+      t.string :facebook_uid
+      t.string :google_oauth2_uid
       t.timestamps null: false
     end
 
@@ -39,12 +41,9 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
 
-    # Initialize first account:
-    User.create! do |u|
-      u.email     = 'test@test.com'
-      u.password    = 'password'
-      u.supervisor_role = true
-    end
+    # OmniAuth
+    add_index :users, :google_oauth2_uid
+    add_index :users, :facebook_uid
 
 
   end

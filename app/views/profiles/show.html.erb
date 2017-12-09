@@ -1,0 +1,35 @@
+<!-- modal settings -->
+<% modal_name = 'new_address_modal' %>
+
+<div class="container py-2">
+  <div class="row p-0">
+    <div class=" col-md-8 col-sm-12">
+      <div id="flash_messages"><%= render 'layouts/flash_messages' %></div>
+      <div class="card rounded-0">
+        <div class="card-header">Profile</div>
+        <div class="card-body px-2">
+          <div id="user_information">
+            <%= render 'info_panel' %>
+          </div>
+          <div id="addresses_containter">
+            <%= render 'addresses/index' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class=" col-md-4 col-sm-12">
+      <div class="card rounded-3">
+        <div class="card-header text-center">Actions</div>
+        <div class="card-body">
+          <%= button_to "Edit data ", edit_profile_path(current_user.profile), remote: true, class: "btn btn-gray col-12", method: :get, data: { disable_with: "Please wait..." } %>
+          <%= button_to "Change password ", edit_user_registration_path(current_user), remote: true, class: "btn btn-gray col-12 mt-2", method: :get, data: { disable_with: "Please wait..." } %>
+          <%= button_to "Add address", new_address_path, remote: true, class: "btn btn-gray col-12 mt-2", method: :get, data: { disable_with: "Please wait..." } %>
+          <%= link_to "Orders", orders_path, class: "btn btn-gray col-12 mt-2"%>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%= render 'misc/ar_delete_modal' %>

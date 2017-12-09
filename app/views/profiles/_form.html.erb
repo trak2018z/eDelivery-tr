@@ -1,0 +1,48 @@
+<%= form_for @profile, :remote => true do |f| %>
+  <div class="modal-body">
+
+    <div class="form-group invisible-label">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "form-control form-control-md", autocomplete: "off", placeholder: "Name" %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+
+    <div class="form-group invisible-label">
+      <%= f.label :surname %>
+      <%= f.text_field :surname, class: "form-control form-control-md", autocomplete: "off", placeholder: "Surname" %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+    <div class="form-group invisible-label">
+      <%= f.label :full_name %>
+      <%= f.text_field :full_name, class: "form-control form-control-md", autocomplete: "off", placeholder: "Building number" %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+
+
+
+      <div class="form-group invisible-label">
+        <%= f.label :email %>
+        <%= f.fields_for :user do |h| %>
+         <%= h.text_field :email, class: "form-control form-control-md", autocomplete: "off", placeholder: "Email", value: current_user.email%>
+        <% end %>
+        <div class="field_with_errors small text-error"></div>
+      </div>
+
+    <div class="form-group invisible-label">
+      <%= f.label :phone %>
+      <%= f.text_field :phone, class: "form-control form-control-md", autocomplete: "off", placeholder: "Phone" %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+  </div>
+
+  <div class="modal-footer mb-2 text-right">
+    <div class="text-right col-12">
+      <%= button_tag 'Cancel', type: 'button', 'data-dismiss': 'modal', class: 'btn btn-gray col-12 col-sm-5' %>
+      <%if action_name=="edit" %>
+        <%= f.submit "Update", class: "btn btn-green col-12 col-sm-5" %>
+      <% else %>
+        <%= f.submit "Create", class: "btn btn-green col-12 col-sm-5", remote: true %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

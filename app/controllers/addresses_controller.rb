@@ -14,17 +14,7 @@ class AddressesController < ApplicationController
     @address = Address.new(allowed_params)
     @address.user_id = current_user.id unless allowed_params[:user_id]
 
-    respond_to do |format|
-      if @address.save
-        flash[:success] = 'Address succesfully added.'
-        format.js
-      else
-        format.json {
-          render json: {prefix: @prefix,errors: @address.errors},
-                 status: :unprocessable_entity
-        }
-      end
-    end
+    remote_create_or_update(@address, allowed_params, 'address', 'create')
   end
 
   def edit
@@ -34,18 +24,7 @@ class AddressesController < ApplicationController
 
   def update
     @address = Address.find(params[:id])
-
-    respond_to do |format|
-      if @address.update(allowed_params)
-        flash[:success] = "Address succesfully updated."
-        format.js { render action: 'create'}
-      else
-        format.json {
-          render json: {prefix: @prefix,errors: @address.errors},
-                 status: :unprocessable_entity
-        }
-      end
-    end
+    remote_create_or_update(@address, allowed_params, 'address', 'update', 'create')
   end
 
   def destroy

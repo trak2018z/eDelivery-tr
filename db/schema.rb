@@ -10,22 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171207103828) do
+ActiveRecord::Schema.define(version: 20171208125451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "addresses", force: :cascade do |t|
     t.string "country"
-    t.string "region"
     t.string "city"
+    t.string "postal_code"
     t.string "street"
     t.string "building_number"
     t.string "apartment_number"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "postal_code"
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
@@ -54,13 +53,32 @@ ActiveRecord::Schema.define(version: 20171207103828) do
     t.integer "weight"
     t.integer "height"
     t.integer "width"
+    t.integer "length"
     t.bigint "cargo_id"
+    t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "length"
-    t.bigint "order_id"
     t.index ["cargo_id"], name: "index_packages_on_cargo_id"
     t.index ["order_id"], name: "index_packages_on_order_id"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.string "name"
+    t.string "surname"
+    t.string "full_name"
+    t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.integer "value"
+    t.string "code"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_roles_on_user_id"
   end
 
   create_table "transporters", force: :cascade do |t|
@@ -83,20 +101,16 @@ ActiveRecord::Schema.define(version: 20171207103828) do
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
+    t.string "facebook_uid"
+    t.string "google_oauth2_uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "supervisor_role", default: false
-    t.boolean "courier", default: false
-    t.boolean "user_role", default: true
-    t.string "provider"
-    t.string "uid"
-    t.string "name"
-    t.string "surname"
-    t.integer "addresses"
+    t.bigint "profile_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["provider"], name: "index_users_on_provider"
+    t.index ["facebook_uid"], name: "index_users_on_facebook_uid"
+    t.index ["google_oauth2_uid"], name: "index_users_on_google_oauth2_uid"
+    t.index ["profile_id"], name: "index_users_on_profile_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["uid"], name: "index_users_on_uid"
   end
 
   add_foreign_key "cargos", "transporters"
@@ -105,4 +119,6 @@ ActiveRecord::Schema.define(version: 20171207103828) do
   add_foreign_key "orders", "users"
   add_foreign_key "packages", "cargos"
   add_foreign_key "packages", "orders"
+  add_foreign_key "roles", "users"
+  add_foreign_key "users", "profiles"
 end

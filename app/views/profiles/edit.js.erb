@@ -1,0 +1,3 @@
+$('#modal_holder').html("<%= escape_javascript(render 'misc/ar_modal', modal: {form: '/profiles/form',
+                              id: 'profil_modal', title: '<i class="fa fa-id-card-o" aria-hidden="true"> Edit informations</i>' }) %>")
+$('.ar-modal').modal()

@@ -1,20 +1,34 @@
 class ApplicationController < ActionController::Base
-  include FontAwesome::Rails::IconHelper
   protect_from_forgery with: :exception
-  before_action :authenticate_user!, :configure_permitted_parameters, if: :devise_controller?
+  before_action :authenticate_user!
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to main_app.root_path, :alert => exception.message
+    redirect_to main_app.root_path, alert: exception.message
   end
 
   def after_sign_in_path_for(resource)
     root_path
   end
 
-  def configure_permitted_parameters
-    additional_params = [:name, :surname,   {addresses_attributes: [:country, :city, :region, :city, :build_number, :aparatment_number]}]
-    devise_parameter_sanitizer.permit(:sign_up, keys: additional_params)
-    devise_parameter_sanitizer.permit(:account_update, keys: additional_params)
+  ## Helpers,
+  def remote_create_or_update(record, params, name_of_model, type_of_action, view = nil, errors = nil)
+    type_of_action == 'create' ?  @action = record.save : @action = record.update(params)
+    respond_to do |format|
+      if @action && errors.nil?
+        flash[:success] = name_of_model.capitalize + ' succesfully '+type_of_action+'d.'
+        if view.nil?
+          format.js
+        else
+          format.js { render action: view }
+        end
+      else
+        record.errors.add(errors[0],errors[1])
+        format.json do
+          render json: { prefix: name_of_model.downcase + '_', errors: record.errors },
+                 status: :unprocessable_entity
+        end
+      end
+    end
   end
 
 end

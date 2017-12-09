@@ -7,8 +7,6 @@
 //= require bootstrap-slider
 //= require select2
 //= require_tree .
-
-
 $(document).on("ajax:error", "form", function(evt) {
     var errors = evt.detail[0].errors;
     var prefix = evt.detail[0].prefix;

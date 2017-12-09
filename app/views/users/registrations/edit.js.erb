@@ -1,0 +1,4 @@
+$('#modal_holder').html("<%= escape_javascript(render 'misc/ar_modal',
+                            modal: {form: '/users/registrations/form', id: 'user_modal',
+                             title: '<i class="fa fa-key" aria-hidden="true"> Change password</i>' }) %>")
+$('.ar-modal').modal()

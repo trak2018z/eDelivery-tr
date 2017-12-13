@@ -1,0 +1,52 @@
+<%= form_for @order, remote: true do |f| %>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-sm-6 px-0 pr-sm-10">
+          <div class="form-group invisible-label mb-0">
+            <%= f.label :receipt_date %>
+            <div class="input-group date" id="prefered_receipt_date" data-target-input="nearest">
+              <%= f.text_field :receipt_date, class: "form-control datetimepicker-input", placeholder: "Receipt date", 'data-target': "#prefered_receipt_date" %>
+              <span class="input-group-addon" data-target="#prefered_receipt_date" data-toggle="datetimepicker">
+                          <span class="fa fa-calendar"></span>
+                      </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 px-0 pl-sm-10">
+          <div class="form-group invisible-label mb-0 ">
+            <%= f.label :delivery_date %>
+            <div class="input-group date" id="prefered_delivery_date" data-target-input="nearest">
+              <%= f.text_field :delivery_date, class: "form-control datetimepicker-input", placeholder: "Delivery date", 'data-target': "#prefered_delivery_date", 'data-default-date': '1/11/2018' %>
+              <span class="input-group-addon" data-target="#prefered_delivery_date" data-toggle="datetimepicker">
+                          <span class="fa fa-calendar"></span>
+                      </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group invisible-label">
+      <%= f.label :source_address %>
+      <%= f.select :source_address_id, {}, {}, {class: "select2-select", placeholder: "Select source address"} do %>
+        <option> </option>
+        <option class="small text-center">Add address</option>
+        <%= current_user.addresses.each do |address| %>
+          <option value="<%= address.id %>" <%= 'selected' if @order.source_address == address  %>><%= address %></option>
+        <% end %>
+      <% end %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+    <div class="form-group invisible-label">
+      <%= f.label :target_address %>
+      <%= f.select :target_address_id, options_for_select(current_user.addresses.collect{ |c| [c,c.id] }.insert(0, "").insert(1,'Add new address'), @order.target_address.id), {}, {class: "select2-select", placeholder: "Select target address"} %>
+      <div class="field_with_errors small text-error"></div>
+    </div>
+  </div>
+  <div class="modal-footer mb-2 text-right">
+    <div class="text-right col-12">
+      <%= button_tag 'Cancel', type: 'button', 'data-dismiss': 'modal', class: 'btn btn-gray col-12 col-sm-5' %>
+      <%= f.submit "Update", class: "btn btn-green col-12 col-sm-5" %>
+    </div>
+  </div>
+<% end %>

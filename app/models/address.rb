@@ -1,5 +1,4 @@
 class Address < ApplicationRecord
-  belongs_to :user
   validates :country, presence: true, length: { maximum: 255 }
   validates :city, presence: true, length: { maximum: 255 }, format: {with: /[a-z]+/i, message:  I18n.t('model.invalid_format')}
   validates :street, length: { maximum: 255 }, format: {with: /[a-z]*/i, message:  I18n.t('model.invalid_format')}
@@ -11,7 +10,7 @@ class Address < ApplicationRecord
 
 
   def to_s
-    street+" "+building_number.to_s+"/"+apartment_number.to_s+", "+city+" - "+region+", "+country
+    street+" "+building_number.to_s+"/"+apartment_number.to_s+", "+postal_code+" "+city+", "+country
   end
 
   def country_alpha2

@@ -15,14 +15,14 @@ class ApplicationController < ActionController::Base
     type_of_action == 'create' ?  @action = record.save : @action = record.update(params)
     respond_to do |format|
       if @action && errors.nil?
-        flash[:success] = name_of_model.capitalize + ' succesfully '+type_of_action+'d.'
+        flash.now[:success] = name_of_model.capitalize + ' succesfully '+type_of_action+'d.'
         if view.nil?
           format.js
         else
           format.js { render action: view }
         end
       else
-        record.errors.add(errors[0],errors[1])
+        record.errors.add(errors[0],errors[1]) unless errors.nil?
         format.json do
           render json: { prefix: name_of_model.downcase + '_', errors: record.errors },
                  status: :unprocessable_entity

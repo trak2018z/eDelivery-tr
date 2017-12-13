@@ -4,6 +4,10 @@ $(document).on 'show.bs.modal', '.ar-modal', ->
       dropdownParent: $('.ar-modal')
       theme: 'bootstrap'
       allowClear: true
+      templateResult: (data, container) ->
+        if data.element
+          $(container).addClass $(data.element).attr('class')
+        data.text
       placeholder: $(this).attr('placeholder')
   return
 

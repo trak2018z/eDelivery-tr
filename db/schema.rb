@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(version: 20171208125451) do
   create_table "orders", force: :cascade do |t|
     t.datetime "receipt_date"
     t.datetime "delivery_date"
-    t.decimal "price"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -54,6 +53,7 @@ ActiveRecord::Schema.define(version: 20171208125451) do
     t.integer "height"
     t.integer "width"
     t.integer "length"
+    t.decimal "price"
     t.bigint "cargo_id"
     t.bigint "order_id"
     t.datetime "created_at", null: false

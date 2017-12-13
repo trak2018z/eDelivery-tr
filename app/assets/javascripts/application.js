@@ -6,7 +6,9 @@
 //= require toastr
 //= require bootstrap-slider
 //= require select2
+//= require moment
 //= require_tree .
+
 $(document).on("ajax:error", "form", function(evt) {
     var errors = evt.detail[0].errors;
     var prefix = evt.detail[0].prefix;
@@ -21,16 +23,24 @@ $(document).on("ajax:error", "form", function(evt) {
     }
 });
 
+$(document).on('click', '.confirm-delete', function(event){
+    $('#confirm-delete').modal('show').find('form').attr('action', $(this).attr('data-href'));
+});
+
 $(document).on('turbolinks:load', function() {
-    $('.confirm-delete').on('click', function(event){
-        $('#confirm-delete').modal('show').find('form').attr('action', $(this).attr('data-href'));
-    });
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 });
 
 
 $(document).on('focus', '.form-control', function() {
-    $(this).parent().removeClass('has-error');
-    $(this).parent().find($('.field_with_errors')).html('')
+    input = $(this);
+    parent = input.parent();
+    if (parent.hasClass('input-group'))
+        parent = input.parent().parent();
+    parent.removeClass('has-error');
+    parent.find($('.field_with_errors')).html('')
 });
 
 $(document).on('select2:opening', '.select2-select', function() {
@@ -48,12 +58,12 @@ $(document).on('select2:closing', '.select2-select', function() {
 });
 
 $(document).on('input focus', '.form-control', function(event) {
-    var label = $(this).parent().find($('label'));
+    var label = $("label[for='"+event.currentTarget.attributes.id.value+"']")
     var len = $(this).val().length;
     if (len > 0) label.addClass('visible'); else label.removeClass('visible');
 });
 
 $(document).on('focusout', '.form-control', function(event) {
-    var label = $(this).parent().find($('label'));
+    var label = $("label[for='"+event.currentTarget.attributes.id.value+"']")
     label.removeClass('visible');
 });

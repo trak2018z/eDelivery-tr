@@ -1,59 +1,76 @@
-
 $(document).on 'turbolinks:load', ->
 
-  $('#add_package').on 'click', (event) ->
-    package_size_fields = $('#package_size').children()
-    if checkIfAllFieldsContainsData(package_size_fields)
-      packages_container = $('#packages_container')
-      clone = package_size_fields.clone()
-      addIndexToInputsAndSetReadOnly(clone)
-      addLastPackagePriceToOrderPrice()
-      packages_container.append clone
-      $('.ar-modal').modal('toggle');
-      clearFields()
+  $('#prefered_receipt_date').datetimepicker
+    useCurrent: false
+    format: "DD/MM/YYYY"
+    orientation: "left"
+  $('#prefered_delivery_date').datetimepicker
+    useCurrent: false
+    format: "DD/MM/YYYY"
+  $('#prefered_receipt_date').on 'change.datetimepicker', (e) ->
+    $('#prefered_delivery_date').datetimepicker 'minDate', e.date
+    return
+  $('#prefered_delivery_date').on 'change.datetimepicker', (e) ->
+    $('#prefered_receipt_date').datetimepicker 'maxDate', e.date
     return
 
-  $('#package_size input').on 'change, input', (event) ->
+  $ ->
+    $(this).find($('.select2-select')).each ->
+      $(this).select2
+        width: '100%'
+        theme: 'bootstrap'
+        allowClear: true
+        templateResult: (data, container) ->
+          if data.element
+            $(container).addClass $(data.element).attr('class')
+          data.text
+        placeholder: $(this).attr('placeholder')
+    return
+
+  $('#new_package').click (e) ->
+    $(this).attr('disabled', 'disabled').css('width',$(this).outerWidth()).html("<i class='fa fa-spinner fa-pulse fa fa-fw'></i>")
+    $.ajax('/packages/new')
+    return
+
+  ## Package modal
+$(document).on 'show.bs.modal', '.ar-modal', ->
+  $('.modal-body input').on 'change, input', (event) ->
     price = 0
-    $(this).parent().find($('input')).each ->
-      price += $(this).val() * $(this).attr('price-for')
-    $('#price_modal').val(price.toFixed(2))
+    container = $('.modal-body')
+    container.find($('input')).each ->
+      price += $(this).val() * $(this).attr('pricefor')
+    $('.price_modal').val(price.toFixed(2))
+    return
+
+  $('#prefered_receipt_date').datetimepicker
+    useCurrent: false
+    format: "DD/MM/YYYY"
+    orientation: "left"
+  $('#prefered_delivery_date').datetimepicker
+    useCurrent: false
+    format: "DD/MM/YYYY"
+  $('#prefered_receipt_date').on 'change.datetimepicker', (e) ->
+    $('#prefered_delivery_date').datetimepicker 'minDate', e.date
+    return
+  $('#prefered_delivery_date').on 'change.datetimepicker', (e) ->
+    $('#prefered_receipt_date').datetimepicker 'maxDate', e.date
     return
   return
 
-# for elemenets created after script bind
 $(document).on 'click', '.rm-package', ->
-  $(this).parent().parent().remove()
-  return
-
-# helpers
-checkIfAllFieldsContainsData = (package_size_fields) ->
-  containsData = true
-  package_size_fields.find($('input')).each ->
-    if this.value <= 0
-      $(this).css('border-color', 'red');
-      containsData = 0 # false breaking loop
-  return containsData
-
-clearFields = ->
-  $('#package_size').children().find($('.package-data')).each ->
-    $(this).val(0)
-  $('#price_modal').val('0.00')
-  return
-
-addIndexToInputsAndSetReadOnly = (clone) ->
-  number = parseInt($('#new_package').attr("data-nopackage"))+1
-  $('#new_package').attr("data-nopackage", number)
-  clone.find('input').each ->
-    name = $(this).attr('name').replace('[index]', "[no-"+number+"]")
-    $(this).attr('name', name)
-    $(this).attr("readonly", "readonly")
-  setRemoveButtonVisible(clone, number)
-
-setRemoveButtonVisible = (obj, id) ->
-  obj.find(('.title-div')).first().attr('hidden', false)
-
-addLastPackagePriceToOrderPrice = ->
+  pack_container = $(this).parent().parent().parent()
+  pack_price = parseFloat(pack_container.find($('input[id=price_modal]')).val())
   order_price = parseFloat($('#order_price').val())
-  package_price = parseFloat($('#price_modal').val())
-  $('#order_price').val((order_price+package_price).toFixed(2))
+  $('#order_price').val((order_price-pack_price).toFixed(2))
+  pack_container.remove()
+  return
+
+
+$(document).on 'select2:selecting', '.select2-select', (e) ->
+  data = e.params.args.data;
+  if(data.id == 'Add address')
+    e.preventDefault();
+    $(this).select2('close');
+    window.address_input = this.id
+    $.ajax('/addresses/new')
+  return

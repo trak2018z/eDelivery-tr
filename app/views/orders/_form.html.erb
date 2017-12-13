@@ -1,18 +1,54 @@
-<!-- modal settings -->
-<% modal_name = 'new_package_modal' %>
-
 <%= form_for :order, :url => orders_path do |f| %>
-  <div class="form-group">
-    <%= f.text_field :receipt_date, class: "form-control form-control-md rounded-0", autofocus: true, placeholder: "Receipt date" %>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-6 px-0 pr-sm-10">
+        <div class="form-group invisible-label mb-0">
+          <%= f.label :receipt_date %>
+          <div class="input-group date" id="prefered_receipt_date" data-target-input="nearest">
+            <%= f.text_field :receipt_date, class: "form-control datetimepicker-input", placeholder: "Receipt date", 'data-target': "#prefered_receipt_date" %>
+            <span class="input-group-addon" data-target="#prefered_receipt_date" data-toggle="datetimepicker">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 px-0 pl-sm-10">
+        <div class="form-group invisible-label mb-0 ">
+          <%= f.label :delivery_date %>
+          <div class="input-group date" id="prefered_delivery_date" data-target-input="nearest">
+            <%= f.text_field :delivery_date, class: "form-control datetimepicker-input", placeholder: "Delivery date", 'data-target': "#prefered_delivery_date" %>
+            <span class="input-group-addon" data-target="#prefered_delivery_date" data-toggle="datetimepicker">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= f.text_field :delivery_date, class: "form-control form-control-md rounded-0", autocomplete: "off", placeholder: "Delivery date" %>
+  <div class="form-group invisible-label">
+    <%= f.label :source_address %>
+    <%= f.select :source_address_id, {}, {}, {class: "select2-select col-12", placeholder: "Select source address"} do %>
+      <option> </option>
+      <option class="small text-center">Add address</option>
+      <%= current_user.addresses.each do |address| %>
+      <option value="<%= address.id %>"><%= address %></option>
+      <% end %>
+    <% end %>
+    <div class="field_with_errors small text-error"></div>
   </div>
-
-  <div class="form-group">
+  <div class="form-group invisible-label">
+    <%= f.label :target_address %>
+    <%= f.select :target_address_id, {}, {}, {class: "select2-select col-12", placeholder: "Select target address"} do %>
+      <option> </option>
+      <option class="small text-center">Add address</option>
+      <%= current_user.addresses.each do |address| %>
+        <option value="<%= address.id %>"><%= address %></option>
+      <% end %>
+    <% end %>
+      <div class="field_with_errors small text-error"></div>
   </div>
-  <div class="input-group">
+  <div class="input-group mt-4">
     <span class="input-group-addon"><%= t('currency.short') %></span>
     <%= f.text_field :price, class: "form-control col-12 col-sm-4 col-md-3 text-right", autocomplete: "off", placeholder: "City", disabled: "disabled", value: '0.00' %>
   </div>
@@ -23,16 +59,14 @@
 
   </div>
   <div class="my-2">
-  <button type="button" id="new_package" class="btn btn-info" data-toggle="modal" data-nopackage="0" data-target="#<%= modal_name %>" data-title="Add package">Add package</button>
+  <button type="button" id="new_package" class="btn btn-blue col-12 col-sm-4" data-toggle="modal" data-nopackage="0"  data-title="Add package">Add package</button>
   </div>
 
-
   <%if action_name=="edit" %>
-    <%= f.submit "Update", class: "btn btn-success col-12 col-md-6 float-right" %>
+    <%= f.submit "Update", class: "btn btn-green col-12 col-md-6 col-lg-4 float-right" %>
   <% else %>
-    <%= f.submit "Create", class: "btn btn-success col-12 col-md-6 float-right" %>
+    <%= f.submit "Create", class: "btn btn-green col-12 col-md-6 col-lg-4 float-right" %>
   <% end %>
 <% end %>
 
-
-<%= render 'misc/ar_modal', modal: {form: 'packages/modal_form', id: modal_name} %>
+<%= render 'misc/ar_delete_modal' %>

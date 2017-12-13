@@ -1,0 +1,66 @@
+$('#modal_holder').html("<%= escape_javascript(render 'misc/ar_modal', modal: {form: 'packages/form', id: 'packages_modal', title: "<i class='fa fa-archive'> Add package</i>" }) %>")
+$('.ar-modal').modal()
+
+order_form = (window.location.href).split('/').includes('new');
+
+if(order_form) {
+    $('#new_package').removeAttr('disabled').html('Add package').removeAttr('style')
+    $('.btn-create').attr('id', 'add_package').val('Add package');
+    $('form[id=new_package]').removeAttr('action').removeAttr('data-remote');
+}
+else{
+    $('form[id=new_package]').attr('id', 'package')
+    $('form[id=package]').prepend("<div hidden><input id='package[order_id]' name='package[order_id]' value='<%= escape_javascript(@order_id) %>'></div>")
+}
+
+$('form[id=new_package]').submit(function(e){
+    e.preventDefault();
+    var clone, container, order_price, price;
+    container = $('.modal-body');
+    price = parseFloat($('.price_modal').val());
+    if (checkIfAllFieldsContainsData(container)) {
+        $('.ar-modal').modal('hide');
+        clone = cloneAndPrepare($('#pac_template'));
+        $('#packages_container').append(clone);
+        order_price = parseFloat($('#order_price').val());
+        $('#order_price').val((order_price + price).toFixed(2));
+    }
+    return false;
+})
+
+var checkIfAllFieldsContainsData, cloneAndPrepare, setPackageStringAndInputs;
+
+checkIfAllFieldsContainsData = function(container) {
+    var containsData;
+    containsData = true;
+    container.find($('input')).each(function() {
+        if (this.value <= 0) {
+            $(this).parent().parent().addClass('has-error');
+            $(this).parent().parent().find($('.field_with_errors')).html('Value must be higher than 0.');
+            return containsData = 0;
+        }
+    });
+    return containsData;
+};
+
+cloneAndPrepare = function(obj) {
+    obj.attr('id', '').removeAttr('hidden');
+    setPackageStringAndInputs(obj);
+    return obj;
+};
+
+setPackageStringAndInputs = function(obj) {
+    var id, string;
+    id = $('.package-input-objects').length;
+    string = 'Package weight: ';
+    obj.find($('.title')).prepend('Package number ' + id + '.');
+    return $('.modal-body').parent().find($('input')).each(function(i) {
+        var attr_id, p_val;
+        p_val = $(this).val();
+        attr_id = $(this).attr('id');
+        return obj.find($('input[id=' + attr_id + ']')).each(function() {
+            return $(this).attr('name', $(this).attr('name') + '[' + id + ']' + '[' + attr_id.split('_')[1] + ']').val(p_val);
+        });
+    });
+};
+

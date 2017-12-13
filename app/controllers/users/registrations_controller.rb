@@ -22,10 +22,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
 
   def update
-    @user = current_user
+    @user = User.find(current_user.id)
     valid_password = @user.valid_password?(allowed_params[:current_password])
-    if @user.update(allowed_params) && valid_password
-      sign_in(current_user, bypass: true)
+    if valid_password && @user.update(allowed_params)
+      bypass_sign_in(@user)
       flash[:success] = 'Password successfully changed.'
     else
         @user.errors.add(:current_password, "Password doesn't match") unless valid_password

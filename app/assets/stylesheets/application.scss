@@ -127,7 +127,18 @@ div.has-error ul.select2-choices {
   text-align: center;
 }
 
-.pointner{
+.pointer{
   cursor:pointer
 }
 
+@media screen
+and (min-width: 576px) {
+  .pr-sm-10{
+    padding-right: 10px !important;
+  }
+  .pl-sm-10{
+    padding-left: 10px !important;
+  }
+}
+.font-awesome { font-family: FontAwesome; color: black; font-size: 125%; margin: 2px }
+.font-awesome:hover { color: #808080 }

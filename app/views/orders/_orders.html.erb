@@ -1,0 +1,58 @@
+<% current_user.orders.each do |order| %>
+  <div class="card mb-2">
+    <div class="title-div col-12 pt-2 ">
+      <div class="title inline-element pb-2">
+        <span class="small text-muted">From </span> <%= order.source_address.city %><span class="small text-muted"> to </span> <%= order.target_address.city %></div>
+      <span class="float-right">
+        <a class="font-awesome mx-1" data-toggle="collapse" href="#collapse-<%= order.id %>" aria-expanded="false" aria-controls="collapse-<%= order.id %>">&#xf05a</a>
+        <%= link_to edit_order_path(order), data: {disable_with: '<a class="small"><i class="fa fa-spinner fa-spin fa-lg fa-fw"></i></a>'}, remote: true, class: 'font-awesome' do %>
+          &#xf044
+        <% end %>
+        <a class='font-awesome mx-1 confirm-delete' href="#" data-href="<%=order_path(order)%>" data-toggle="modal" data-target="#confirm-delete">&#xf00d</a>
+      </span>
+    </div>
+    <div class="collapse" id="collapse-<%= order.id %>">
+      <hr class="mt-1 pb-0"/>
+      <div class="row p-2">
+        <div class="col-12 col-md-8 mb-2">
+          <div class="text-muted small">Addresses</div>
+
+          <span class="font-awesome mr-2" data-toggle="tooltip" data-placement="top" title="Source address">&#xf015&#xf105</span><%= order.source_address %><br/>
+          <span class="font-awesome mr-2" data-toggle="tooltip" data-placement="top" title="Destination address">&#xf105&#xf015</span><%= order.target_address %>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="text-muted small">Dates</div>
+          <span class="font-awesome mr-2" data-toggle="tooltip" data-placement="top" title="Receipt date">&#xf271</span><%= order.receipt_date.to_date %><br/>
+          <span class="font-awesome mr-2" data-toggle="tooltip" data-placement="top" title="Delivery date">&#xf274</span><%= order.delivery_date.to_date %>
+        </div>
+        <div class="col-12"><hr class="my-0 pb-0"/><span class="small text-muted">Packages:</span>
+          <div id="order_packages_<%= order.id %>">
+            <% order.packages.each do |package| %>
+              <div class="card mb-1" id="package-<%= package.id %>">
+                <div class="row col-12">
+                  <div class="col-12 col-sm-5">
+                    <span class="font-awesome mr-2" data-toggle="tooltip" data-placement="top" title="Package size">&#xf009</span><%= package.size %>
+                  </div>
+                  <div class="col-12 col-sm-3 pr-0">
+                    <span class="font-awesome mr-2" data-toggle="tooltip" data-placement="top" title="Package weight">&#xf24e</span><%= package.get_weight %>
+                  </div>
+                  <div class="col-12 col-sm-3 pr-0">
+                    <span class="font-awesome mr-2" data-toggle="tooltip" data-placement="top" title="Package price">&#xf0d6</span><%= t('currency.short') %> <%= package.price %>
+                  </div>
+                  <div class="col-12 col-sm-1 text-right p-0">
+                        <a class='font-awesome mx-1 confirm-delete' href="#" data-href="<%=package_path(package)%>" data-toggle="modal" data-target="#confirm-delete">&#xf00d</a>
+                  </div>
+                </div>
+              </div>
+           <% end %>
+          </div>
+          <div class="text-right mr-2">
+            <%= link_to "packages/new?order=#{order.id }", data: {disable_with: '<a class="small"><i class="fa fa-spinner fa-spin fa-lg fa-fw"></i></a> Please wait...'}, remote: true, class: 'font-awesome' do %>
+              &#xf067 Add package
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

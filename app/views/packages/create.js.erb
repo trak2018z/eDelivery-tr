@@ -1,0 +1,22 @@
+$('#flash_messages').html('<%= escape_javascript(render 'layouts/flash_messages') %>');
+$('.ar-modal').modal('hide');
+
+var appendIt = ""+
+    "<div class='card mb-1' id='package-<%= escape_javascript(@package.id.to_s) %>''>\
+  <div class='row col-12'>\
+      <div class='col-12 col-sm-5'>\
+      <span class='font-awesome mr-2' data-toggle='tooltip' data-placement='top' title='Package size'>&#xf009</span><%= escape_javascript(@package.size) %>\
+  </div>\
+  <div class='col-12 col-sm-3 pr-0'>\
+      <span class='font-awesome mr-2' data-toggle='tooltip' data-placement='top' title='Package weight'>&#xf24e</span><%= escape_javascript(@package.get_weight) %>\
+      </div>\
+      <div class='col-12 col-sm-3 pr-0'>\
+          <span class='font-awesome mr-2' data-toggle='tooltip' data-placement='top' title='Package price'>&#xf0d6</span><%= t('currency.short') %> <%= @package.price.to_s %>\
+      </div>\
+    <div class='col-12 col-sm-1 text-right p-0'>\
+    <a class='font-awesome mx-1 confirm-delete' href='#' data-href='packages/<%= escape_javascript(@package.id.to_s) %>' data-toggle='modal' data-target='#confirm-delete'>&#xf00d</a>\
+  </div>\
+  </div>\
+</div>"
+    
+$('#order_packages_<%= escape_javascript(@package.order_id.to_s)%>').append(appendIt)

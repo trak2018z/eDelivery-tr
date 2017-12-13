@@ -11,9 +11,8 @@ class AddressesController < ApplicationController
   end
 
   def create
-    @address = Address.new(allowed_params)
+    @address = Address.new
     @address.user_id = current_user.id unless allowed_params[:user_id]
-
     remote_create_or_update(@address, allowed_params, 'address', 'create')
   end
 
@@ -29,15 +28,14 @@ class AddressesController < ApplicationController
 
   def destroy
     @address = Address.find_by(id: params[:id])
-    respond_to do |format|
-      if @address.destroy
-        flash[:notice] = 'Address succesfully deleted.'
-        format.js
-      else
+    orders = Order.where(source_address_id: @address.id).or(Order.where(target_address_id: @address.id))
+
+    query_effect =  orders.empty? ? @address.destroy : @address.update(user_id: nil)
+
+    query_effect ?
+        flash[:notice] = 'Address succesfully deleted.' :
         flash[:danger] = 'Something went wrong.'
-        format.js
-      end
-    end
+    respond_to :js
   end
 
   private

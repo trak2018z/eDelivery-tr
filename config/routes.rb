@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
 
-
-
-
   resources :orders
   resources :packages
+  get '/packages/newjs', to: 'packages#newjs'
 
   resources :addresses
   resources :profiles

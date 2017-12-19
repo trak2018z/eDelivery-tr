@@ -10,16 +10,11 @@ class Address < ApplicationRecord
 
 
   def to_s
-    street+" "+building_number.to_s+"/"+apartment_number.to_s+", "+postal_code+" "+city+", "+country
+    street+' '+building_number.to_s+'/'+apartment_number.to_s+', '+postal_code+' '+city+', '+country
   end
 
   def country_alpha2
-    if country.length > 0
-      ISO3166::Country.find_by_name(country)[0]
-    else
-      nil
-    end
-
+    ISO3166::Country.find_by_name(country)[0] unless country.empty?
   end
 
 

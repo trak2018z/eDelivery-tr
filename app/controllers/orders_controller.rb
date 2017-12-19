@@ -13,16 +13,17 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(allowed_params)
     @order.user = User.find(current_user.id) unless allowed_params[:user_id]
-    @order.source_address = Address.find(allowed_params[:source_address_id])
-    @order.target_address = Address.find(allowed_params[:target_address_id])
-    set_price_for_each_package(params[:order]['packages'])
+    @order.source_address = Address.find(allowed_params[:source_address_id]) unless allowed_params[:source_address_id].to_s.empty?
+    @order.target_address = Address.find(allowed_params[:target_address_id]) unless allowed_params[:target_address_id].to_s.empty?
+    set_price_for_each_package(params[:order]['packages']) unless params[:order]['packages'].nil?
 
     if @order.save
       flash[:success] = 'Order has been created.'
-      redirect_to packages_path
+      redirect_to orders_path
     else
       flash.now[:errors] = @order.errors.full_messages
-      render new_order_path
+      render json: {prefix: @prefix, errors: @order.errors},
+             status: :unprocessable_entity
     end
   end
 

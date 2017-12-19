@@ -13,7 +13,9 @@ class PackagesController < ApplicationController
     price = 0
     allowed_params.each do |k, v|
       element = price_of_package_element[k.to_sym]
-      price += element*Integer(v) unless element.nil?
+      unless v.to_s.empty?
+        price += element*Integer(v) unless element.nil?
+      end
     end
     @package.price = price
     remote_create_or_update(@package, allowed_params, 'package', 'create')

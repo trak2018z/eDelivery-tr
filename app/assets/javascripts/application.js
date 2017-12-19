@@ -14,12 +14,15 @@ $(document).on("ajax:error", "form", function(evt) {
     var prefix = evt.detail[0].prefix;
     console.log(evt.detail[0])
     for (m in errors) {
-        input = $('.ar-modal.show').find($('#'+prefix+m));
-        error_box = input.parent().find('.field_with_errors');
+        input = $('.ar-modal.show, .form-with-errors').find($('#'+prefix+m));
+        if(input.parent().hasClass('input-group')){
+            parent = input.parent().parent();
+            error_box = parent.find('.field_with_errors')}
+        else{
+            parent = input.parent();
+            error_box = parent.find('.field_with_errors')}
         error_box.text(errors[m][0].substr(0,1).toUpperCase()+errors[m][0].substr(1)+'.')
-        if (input.hasClass('select2_select'))
-            input.parent().addClass('has-error');
-        input.parent().addClass('has-error')
+        parent.addClass('has-error');
     }
 });
 
@@ -58,7 +61,7 @@ $(document).on('select2:closing', '.select2-select', function() {
 });
 
 $(document).on('input focus', '.form-control', function(event) {
-    var label = $("label[for='"+event.currentTarget.attributes.id.value+"']")
+    var label = $("label[for='"+event.currentTarget.attributes.id.value+"']");
     var len = $(this).val().length;
     if (len > 0) label.addClass('visible'); else label.removeClass('visible');
 });

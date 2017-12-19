@@ -1,3 +1,5 @@
-$('#modal_holder').append("<%= escape_javascript(render 'misc/ar_modal', modal: {form: 'addresses/form', id: 'address_modal', title: "<i class='fa fa-address-book-o'> Add address</i>" }) %>")
-$('#address_modal').modal()
+$('#address_modal').remove();
+$('#modal_holder').append("<%= escape_javascript(render 'misc/ar_modal', modal: {form: 'addresses/form',
+                                id: 'address_modal', title: "<i class='fa fa-address-book-o'> Add address</i>" }) %>");
+$('#address_modal').modal();
 

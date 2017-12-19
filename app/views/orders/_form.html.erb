@@ -1,4 +1,4 @@
-<%= form_for :order, :url => orders_path do |f| %>
+<%= form_for :order, :url => orders_path, remote: true, html: {class: "form-with-errors"} do |f| %>
   <div class="container">
     <div class="row">
       <div class="col-12 col-sm-6 px-0 pr-sm-10">
@@ -7,13 +7,13 @@
           <div class="input-group date" id="prefered_receipt_date" data-target-input="nearest">
             <%= f.text_field :receipt_date, class: "form-control datetimepicker-input", placeholder: "Receipt date", 'data-target': "#prefered_receipt_date" %>
             <span class="input-group-addon" data-target="#prefered_receipt_date" data-toggle="datetimepicker">
-                        <span class="fa fa-calendar"></span>
-                    </span>
+                          <span class="fa fa-calendar"></span>
+                      </span>
           </div>
         </div>
       </div>
       <div class="col-12 col-sm-6 px-0 pl-sm-10">
-        <div class="form-group invisible-label mb-0 ">
+        <div class="form-group invisible-label mb-0">
           <%= f.label :delivery_date %>
           <div class="input-group date" id="prefered_delivery_date" data-target-input="nearest">
             <%= f.text_field :delivery_date, class: "form-control datetimepicker-input", placeholder: "Delivery date", 'data-target': "#prefered_delivery_date" %>
@@ -31,7 +31,7 @@
     <%= f.select :source_address_id, {}, {}, {class: "select2-select col-12", placeholder: "Select source address"} do %>
       <option> </option>
       <option class="small text-center">Add address</option>
-      <%= current_user.addresses.each do |address| %>
+      <% current_user.addresses.each do |address| %>
       <option value="<%= address.id %>"><%= address %></option>
       <% end %>
     <% end %>
@@ -42,7 +42,7 @@
     <%= f.select :target_address_id, {}, {}, {class: "select2-select col-12", placeholder: "Select target address"} do %>
       <option> </option>
       <option class="small text-center">Add address</option>
-      <%= current_user.addresses.each do |address| %>
+      <% current_user.addresses.each do |address| %>
         <option value="<%= address.id %>"><%= address %></option>
       <% end %>
     <% end %>

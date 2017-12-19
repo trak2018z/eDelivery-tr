@@ -4,7 +4,8 @@ $('#address_modal').modal('hide');
 order_form = (window.location.href).split('/').includes('orders','order');
 if(order_form){
     address = "<%= escape_javascript(@address.to_s) %>"
-    new_option = new Option(address,address,false,false);
+    address_id = "<%= escape_javascript(@address.id.to_s) %>"
+    new_option = new Option(address,address_id,false,false);
     $('.select2-select').append(new_option).trigger('change');
     new_option.selected = true;
     $('#'+window.address_input).val(new_option.value).trigger('change');

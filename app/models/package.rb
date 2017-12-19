@@ -2,10 +2,10 @@ class Package < ApplicationRecord
   belongs_to :order
   belongs_to :cargo, optional: true
 
-  validates :weight, presence: true, inclusion: {in: [0,2000]}
-  validates :length, presence: true, inclusion: {in: [0,200]}
-  validates :width, presence: true, inclusion: {in: [0,200]}
-  validates :height, presence: true, inclusion: {in: [0,200]}
+  validates :weight, presence: true, inclusion: 0..2000
+  validates :length, presence: true, inclusion: 0..200
+  validates :width, presence: true, inclusion: 0..200
+  validates :height, presence: true, inclusion: 0..200
 
   def to_s
     "Size: #{height} x #{width} x #{length} cm, weight: #{weight} - price: #{ I18n.t('currency.short')} #{price}"

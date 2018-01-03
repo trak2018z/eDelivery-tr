@@ -49,11 +49,12 @@ class OrdersController < ApplicationController
 
   private
   def allowed_params
-    params.require(:order).permit(:receipt_date, :delivery_date, :user_id, :source_address_id, :target_address_id, :packages[1..20])
+    params.require(:order).permit(:receipt_date, :delivery_date, :user_id, :source_address_id, :target_address_id)
   end
 
   def set_price_for_each_package(packages)
     packages.each do |key, value|
+      value = package_allowed_params(value)
       value.permit!
       price = 0
       value.each do |k, v|
@@ -63,6 +64,10 @@ class OrdersController < ApplicationController
       value[:price] = sprintf('%.2f',price)
       @order.packages.new(value)
     end
+  end
+
+  def package_allowed_params(params)
+    params.slice(:weight, :height, :width, :length)
   end
 
   def set_prefix
